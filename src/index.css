@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-black;
+  font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+}
+
+.brand-name {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 600;
+  font-style: normal;
+  font-optical-sizing: auto;
+}
+
+.search-container {
+  @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full md:w-[60%] z-10;
+}
+
+.search-input {
+  @apply w-full px-6 py-3 rounded-lg border-2 border-transparent focus:border-[#cc73f8] 
+         focus:outline-none transition-colors duration-300 shadow-lg;
+}
+
+.search-button {
+  @apply absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#cc73f8] text-white 
+         px-4 py-2 rounded-lg hover:bg-[#2ECC71] transition-all duration-300 
+         hover:scale-105 flex items-center shadow-md;
+}
+
+.suggestions-container {
+  @apply absolute w-full bg-white rounded-lg shadow-lg mt-2 overflow-hidden;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.course-card {
+  @apply bg-white rounded-xl shadow-md overflow-hidden transform transition-all 
+         duration-300 hover:scale-105 hover:shadow-xl;
+}
+
+.course-image {
+  @apply w-full aspect-video object-cover;
+}
+
+.course-content {
+  @apply p-6;
+}
+
+.course-title {
+  @apply text-xl font-semibold mb-2 line-clamp-2;
+}
+
+.course-description {
+  @apply text-gray-600 mb-4 line-clamp-3;
+}
+
+.course-meta {
+  @apply flex items-center justify-between mb-4;
+}
+
+.course-category {
+  @apply px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800;
+}
+
+.course-duration {
+  @apply text-sm text-gray-500;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
+
+@keyframes metallic {
+  0% { background-position: 0% 50% }
+  100% { background-position: 100% 50% }
+}
+
+@keyframes sparkle {
+  0% {
+    transform: translate(100%, -100%) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-100%, 100%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #fff;
+  animation: 
+    typing 3.5s steps(40, end),
+    blink 0.75s step-end infinite;
+}
+
+.metallic-text {
+  background: linear-gradient(90deg, #808080, #C0C0C0, #808080);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: metallic 3s linear infinite;
+}
+
+.sparkle-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.sparkle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, #C0C0C0, transparent);
+  animation: sparkle 4s linear infinite;
+}
+
+.platform-button {
+  @apply px-4 py-2 rounded-lg transition-all duration-300 font-semibold;
+}
+
+.platform-button.active {
+  @apply bg-[#cc73f8] text-white transform scale-105;
+}
+
+.platform-button:not(.active) {
+  @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
+}
+
+.analysis-card {
+  @apply bg-gray-900 rounded-xl p-6 text-white;
+}
