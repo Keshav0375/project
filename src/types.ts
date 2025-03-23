@@ -1,11 +1,17 @@
 export interface Course {
-  id: number;
+  id?: number;
   title: string;
   description: string;
-  rating: number;
-  price: number;
-  image: string;
-  platform: 'edx' | 'coursera' | 'khan-academy' | 'stanford' | 'roadmap-sh';
+  image?: string;
+  price: number | string;
+  rating: number | string;
+  platform: string;
+  url?: string;
+}
+
+export interface SearchSuggestion {
+  text: string;
+  category: string;
 }
 
 export interface TeamMember {
@@ -20,25 +26,38 @@ export interface Feature {
   description: string;
 }
 
-export interface SearchSuggestion {
-  text: string;
-  category: string;
-}
-
+// Analysis data types
 export interface WordFrequency {
-  word: string;
-  count: number;
-  percentage: number;
+  text: string;
+  value: number;
 }
 
-export interface InvertedIndex {
-  word: string;
-  frequency: number;
-  urls: string[];
+export interface IndexEntry {
+  term: string;
+  courses: string[];
 }
 
-export interface PageRank {
-  url: string;
+export interface PageRankItem {
+  title: string;
   rank: number;
+  platform: string;
+}
+
+// API response types
+export interface ApiResponse {
+  success: boolean;
+  message: string;
+  coursesByPlatform: Record<string, ApiCourse[]>;
+  courses: null | ApiCourse[];
+  totalCourses: number;
+  executionTimeMs: number;
+}
+
+export interface ApiCourse {
+  title: string;
   description: string;
+  url: string;
+  price: string;
+  rating: number;
+  platform: string;
 }

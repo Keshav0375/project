@@ -1,4 +1,6 @@
 import type { Course, TeamMember } from './types';
+import courseraImg from './images/coursera.jpg';
+import stanfordImg from './images/stanford.jpg';
 
 
 export const courses: Course[] = [
@@ -56,7 +58,7 @@ export const courses: Course[] = [
     description: "Master deep neural networks and AI fundamentals with PyTorch",
     rating: 4.9,
     price: 49.99,
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800",
+    image: courseraImg,
     platform: "coursera"
   },
   {
@@ -65,7 +67,7 @@ export const courses: Course[] = [
     description: "Learn the core skills required for successful product development",
     rating: 4.7,
     price: 39.99,
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&q=80&w=800",
+    image: courseraImg,
     platform: "coursera"
   },
   {
@@ -74,7 +76,7 @@ export const courses: Course[] = [
     description: "Create effective user experiences through research-driven design",
     rating: 4.8,
     price: 44.99,
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800",
+    image: courseraImg,
     platform: "coursera"
   },
   {
@@ -83,7 +85,7 @@ export const courses: Course[] = [
     description: "Understand global financial markets and investment strategies",
     rating: 4.6,
     price: 54.99,
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800",
+    image: courseraImg,
     platform: "coursera"
   },
   {
@@ -92,7 +94,7 @@ export const courses: Course[] = [
     description: "Apply Python programming to data analysis and visualization",
     rating: 4.9,
     price: 59.99,
-    image: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&q=80&w=800",
+    image: courseraImg,
     platform: "coursera"
   },
   
@@ -150,7 +152,7 @@ export const courses: Course[] = [
     description: "Stanford's renowned course on machine learning algorithms",
     rating: 4.9,
     price: 199.99,
-    image: "https://images.unsplash.com/photo-1527474305487-b87b222841cc?auto=format&fit=crop&q=80&w=800",
+    image: stanfordImg,
     platform: "stanford"
   },
   {
@@ -159,7 +161,7 @@ export const courses: Course[] = [
     description: "Advanced AI concepts and applications in modern computing",
     rating: 4.8,
     price: 219.99,
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+    image: stanfordImg,
     platform: "stanford"
   },
   {
@@ -168,7 +170,7 @@ export const courses: Course[] = [
     description: "Secure communication techniques and modern cryptographic systems",
     rating: 4.7,
     price: 189.99,
-    image: "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&q=80&w=800",
+    image: stanfordImg,
     platform: "stanford"
   },
   {
@@ -177,7 +179,7 @@ export const courses: Course[] = [
     description: "Image processing and computational understanding of visual data",
     rating: 4.9,
     price: 209.99,
-    image: "https://images.unsplash.com/photo-1598970434795-0c54fe7c0648?auto=format&fit=crop&q=80&w=800",
+    image: stanfordImg,
     platform: "stanford"
   },
   {
@@ -186,7 +188,7 @@ export const courses: Course[] = [
     description: "Design and evaluation of interactive computing systems",
     rating: 4.6,
     price: 179.99,
-    image: "https://images.unsplash.com/photo-1581287053822-fd7bf4f4bfec?auto=format&fit=crop&q=80&w=800",
+    image: stanfordImg,
     platform: "stanford"
   },
   
@@ -242,7 +244,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Keshav Arri",
     role: "Full Stack Engineer",
-    github: "https://github.com/keshavk0375",
+    github: "https://github.com/keshav0375",
     linkedin: "https://www.linkedin.com/in/keshav-kumar-arri/"
   },
   {
