@@ -1,72 +1,47 @@
-import React, { useState } from 'react';
-import type { InvertedIndex } from '../../types';
-import { ArrowUpDown } from 'lucide-react';
+// InvertedIndexTable.tsx
+import React from 'react';
+import type { InvertedIndexItem } from '../../types'; // Ensure that your types file is updated accordingly
 
 interface Props {
-  data: InvertedIndex[];
+  data: InvertedIndexItem[];
 }
 
 export function InvertedIndexTable({ data }: Props) {
-  const [sortField, setSortField] = useState<'word' | 'frequency'>('frequency');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-
-  const sortedData = [...data].sort((a, b) => {
-    const modifier = sortDirection === 'asc' ? 1 : -1;
-    return a[sortField] > b[sortField] ? modifier : -modifier;
-  });
-
-  const toggleSort = (field: 'word' | 'frequency') => {
-    if (sortField === field) {
-      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('desc');
-    }
-  };
+  // Here we assume we want to sort by frequency (descending) by default.
+  const sortedData = [...data].sort((a, b) => b.frequency - a.frequency);
 
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
         <thead>
           <tr className="border-b border-gray-700">
-            <th className="py-2 px-4 text-left">
-              <button 
-                className="flex items-center text-gray-200 hover:text-white"
-                onClick={() => toggleSort('word')}
-              >
-                Word <ArrowUpDown size={16} className="ml-1" />
-              </button>
-            </th>
-            <th className="py-2 px-4 text-left">
-              <button 
-                className="flex items-center text-gray-200 hover:text-white"
-                onClick={() => toggleSort('frequency')}
-              >
-                Frequency <ArrowUpDown size={16} className="ml-1" />
-              </button>
-            </th>
-            <th className="py-2 px-4 text-left text-gray-200">URLs</th>
+            <th className="py-2 px-4 text-left">Frequency</th>
+            <th className="py-2 px-4 text-left">Positions</th>
+            <th className="py-2 px-4 text-left">URL</th>
           </tr>
         </thead>
         <tbody>
-          {sortedData.map((item, index) => (
+        {sortedData.slice(0, 5).map((item, index) => (
             <tr key={index} className="border-b border-gray-800">
-              <td className="py-2 px-4 text-gray-300">{item.word}</td>
+              {/* Display frequency */}
               <td className="py-2 px-4 text-gray-300">{item.frequency}</td>
+              
+              {/* Display up to three positions */}
+              <td className="py-2 px-4 text-gray-300">
+                {item.positionList.slice(0, 3).join(', ')}
+                {item.positionList.length > 3 ? '...' : ''}
+              </td>
+              
+              {/* Display URL as a clickable link */}
               <td className="py-2 px-4">
-                <div className="flex flex-wrap gap-2">
-                  {item.urls.map((url, urlIndex) => (
-                    <a
-                      key={urlIndex}
-                      href={url}
-                      className="text-[#cc73f8] hover:text-[#2ECC71] text-sm"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {new URL(url).pathname}
-                    </a>
-                  ))}
-                </div>
+                <a
+                  href={item.url}
+                  className="text-[#cc73f8] hover:text-[#2ECC71] text-sm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {new URL(item.url).pathname}
+                </a>
               </td>
             </tr>
           ))}

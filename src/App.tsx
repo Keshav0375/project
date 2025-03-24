@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Menu, Star, X, BarChart2, Network, TrendingUp, Loader, Download } from 'lucide-react';
-import type { SearchSuggestion, Course } from './types';
+import type { SearchSuggestion, Course, InvertedIndexItem } from './types';
 import { teamMembers, features } from './data';
-import { fetchCourses } from './api'; 
+import { fetchCourses, fetchPageRank, fetchInvertedIndex} from './api'; 
 import { WordFrequencyChart } from './components/analysis/WordFrequencyChart';
 import { InvertedIndexTable } from './components/analysis/InvertedIndexTable';
 import { PageRankDisplay } from './components/analysis/PageRankDisplay';
-import { wordFrequencyData, invertedIndexData, pageRankData } from './data/analysisData';
+import { wordFrequencyData } from './data/analysisData';
 import csvDataService from './services/CSVDataService';
 
 function App() {
@@ -24,6 +24,15 @@ function App() {
     message: '',
     visible: false
   });
+  const [pageRankData, setPageRankData] = useState([]);
+  const [invertedIndexData, setInvertedIndexData] = useState<InvertedIndexItem[]>([]);
+  const [feedback, setFeedback] = useState({
+    name: '',
+    email: '',
+    mobile: '',
+    message: ''
+  });
+  const [feedbackError, setFeedbackError] = useState('');
   const fullText = "Find Your Perfect Course";
 
   const platforms = [
@@ -72,6 +81,72 @@ function App() {
     }, 3000); // Hide after 3 seconds
   };
 
+  const handleFeedbackChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFeedback(prev => ({ ...prev, [name]: value }));
+  };
+
+  const validateFeedback = () => {
+    const { name, email, mobile, message } = feedback;
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    const mobileRegex = /^(\+1[-.\s]?)?(\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/;
+  
+    if (!name || !nameRegex.test(name)) {
+      return "Please enter a valid name (letters and spaces only).";
+    }
+    if (!email || !emailRegex.test(email)) {
+      return "Please enter a valid email address.";
+    }
+    if (!mobile || !mobileRegex.test(mobile)) {
+      return "Please enter a valid Canadian mobile number (e.g., +1 613-957-2991).";
+    }
+    if (!message.trim()) {
+      return "Please enter a message.";
+    }
+    return "";
+  };
+  
+  // Handle form submission:
+  const handleFeedbackSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const errorMsg = validateFeedback();
+    if (errorMsg) {
+      setFeedbackError(errorMsg);
+      return;
+    }
+    setFeedbackError('');
+    
+    // Prepare the new feedback entry
+    const newEntry = `Name: ${feedback.name}\nEmail: ${feedback.email}\nMobile: ${feedback.mobile}\nMessage: ${feedback.message}\n----------------------\n`;
+    
+    // Retrieve any previously saved feedback from localStorage
+    const existingFeedback = localStorage.getItem("feedbackTxt") || "";
+    const updatedFeedback = existingFeedback + newEntry;
+    localStorage.setItem("feedbackTxt", updatedFeedback);
+    
+    // Create a text file Blob from the updated feedback
+    const blob = new Blob([updatedFeedback], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    // Set the filename. This will re-download a new file each submission.
+    link.download = "feedback.txt";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    // Clear the form fields and show a toast message
+    setFeedback({
+      name: '',
+      email: '',
+      mobile: '',
+      message: ''
+    });
+    showToast("Feedback submitted and saved successfully!");
+  };
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     
@@ -116,6 +191,26 @@ function App() {
       if (searchResults.length > 0) {
         setCourses(searchResults);
         showToast(`Found ${searchResults.length} courses matching "${searchQuery}"`);
+        
+        // Now fetch page rank data
+        try {
+          const pageRankResponse = await fetchPageRank(searchQuery);
+          if (pageRankResponse && pageRankResponse.data) {
+            setPageRankData(pageRankResponse.data);
+          }
+        } catch (pageRankError) {
+          console.error("Error fetching page rank data:", pageRankError);
+          // We don't set the main error as this is a secondary feature
+        }
+
+        try {
+          const invertedIndexResponse = await fetchInvertedIndex(searchQuery);
+          if (invertedIndexResponse && invertedIndexResponse.data) {
+              setInvertedIndexData(invertedIndexResponse.data);
+          }
+          } catch (invertedIndexError) {
+              console.error("Error fetching inverted index data:", invertedIndexError);
+          }
       } else {
         setError("No courses found. Try a different search term.");
       }
@@ -127,7 +222,6 @@ function App() {
     }
   };
 
-  // Function to perform API scraping
   const performScraping = async () => {
     if (!searchQuery.trim()) return;
     
@@ -142,6 +236,27 @@ function App() {
       if (fetchedCourses.length > 0) {
         setCourses(fetchedCourses);
         showToast(`Scraped ${fetchedCourses.length} courses for "${searchQuery}"`);
+        
+        // Now fetch page rank data
+        try {
+          const pageRankResponse = await fetchPageRank(searchQuery);
+          if (pageRankResponse && pageRankResponse.data) {
+            setPageRankData(pageRankResponse.data);
+          }
+        } catch (pageRankError) {
+          console.error("Error fetching page rank data:", pageRankError);
+          // We don't set the main error as this is a secondary feature
+        }
+
+
+        try {
+          const invertedIndexResponse = await fetchInvertedIndex(searchQuery);
+          if (invertedIndexResponse && invertedIndexResponse.data) {
+              setInvertedIndexData(invertedIndexResponse.data);
+          }
+          } catch (invertedIndexError) {
+              console.error("Error fetching inverted index data:", invertedIndexError);
+          }
       } else {
         setError("No courses found. Try a different search term.");
       }
@@ -421,6 +536,53 @@ function App() {
         </div>
       </div>
 
+      {/* Feedback Form Section */}
+      <div className="container mx-auto px-4 py-16 bg-gray-800 rounded-lg mb-16">
+        <h2 className="text-3xl font-bold text-center mb-8 text-white">Feedback</h2>
+        {feedbackError && <p className="text-red-500 text-center mb-4">{feedbackError}</p>}
+        <form onSubmit={handleFeedbackSubmit} className="max-w-lg mx-auto space-y-4">
+          <input
+            type="text"
+            name="name"
+            value={feedback.name}
+            onChange={handleFeedbackChange}
+            placeholder="Your Name"
+            className="w-full px-4 py-2 rounded"
+          />
+          <input
+            type="email"
+            name="email"
+            value={feedback.email}
+            onChange={handleFeedbackChange}
+            placeholder="Your Email"
+            className="w-full px-4 py-2 rounded"
+          />
+          <input
+            type="text"
+            name="mobile"
+            value={feedback.mobile}
+            onChange={handleFeedbackChange}
+            placeholder="Your Mobile Number (e.g., +1 613-957-2991)"
+            className="w-full px-4 py-2 rounded"
+          />
+          <textarea
+            name="message"
+            value={feedback.message}
+            onChange={handleFeedbackChange}
+            placeholder="Your Message"
+            className="w-full px-4 py-2 rounded h-32"
+          />
+          <button
+            type="submit"
+            className="w-full bg-[#cc73f8] text-white px-4 py-2 rounded hover:bg-[#2ECC71] transition-colors"
+          >
+            Submit Feedback
+          </button>
+        </form>
+      </div>
+
+
+
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
@@ -467,6 +629,7 @@ function getPlatformName(platformId: string): string {
     'Coursera': 'Coursera',
     'khan-academy': 'Khan Academy',
     'KhanAcademy': 'Khan Academy',
+    'Khan Academy': 'Khan Academy',
     'stanford': 'Stanford',
     'StanfordOnline': 'Stanford',
     'roadmap-sh': 'Roadmap.sh'

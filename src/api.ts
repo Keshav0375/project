@@ -99,3 +99,56 @@ function processCourses(apiCourses: ApiCourse[], defaultPlatform?: string): Cour
     };
   });
 }
+
+export interface PageRankResponse {
+  statusCode: number;
+  message: string;
+  data: [];
+}
+
+export async function fetchPageRank(searchWord: string): Promise<PageRankResponse> {
+  try {
+    const response = await fetch(`http://localhost:8080/api/courses/getPageRank?searchWord=${encodeURIComponent(searchWord)}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching page rank data:", error);
+    throw error;
+  }
+}
+
+// api.ts
+
+export interface InvertedIndexItem {
+  url: string;
+  frequency: number;
+  positionList: number[];
+}
+
+export interface InvertedIndexResponse {
+  statusCode: number;
+  message: string;
+  data: InvertedIndexItem[];
+}
+
+export async function fetchInvertedIndex(searchWord: string): Promise<InvertedIndexResponse> {
+  try {
+    const response = await fetch(`http://localhost:8080/api/courses/getInvertedIndex?searchWord=${encodeURIComponent(searchWord)}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    
+    const data: InvertedIndexResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching inverted index data:", error);
+    throw error;
+  }
+}
+

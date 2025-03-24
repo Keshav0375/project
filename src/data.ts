@@ -11,7 +11,7 @@ export const courses: Course[] = [
     description: "Master the fundamentals of ML algorithms and practical applications",
     rating: 4.8,
     price: 99.99,
-    image: "https://images.cdn.edx.org/post71-edx-logo-registered-elm.png?_gl=1*6zzr86*_ga*MjEwNTQzMDE4MC4xNzQyNzg0OTg2*_ga_D3KS4KMDT0*MTc0Mjc4NDk4Ni4xLjAuMTc0Mjc4NDk4Ni42MC4wLjA.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/c/cd/EdX_newer_logo.svg",
     platform: "edx"
   },
   {
@@ -20,7 +20,7 @@ export const courses: Course[] = [
     description: "Learn statistical analysis and data visualization techniques",
     rating: 4.6,
     price: 79.99,
-    image: "https://images.cdn.edx.org/post71-edx-logo-registered-elm.png?_gl=1*6zzr86*_ga*MjEwNTQzMDE4MC4xNzQyNzg0OTg2*_ga_D3KS4KMDT0*MTc0Mjc4NDk4Ni4xLjAuMTc0Mjc4NDk4Ni42MC4wLjA.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/c/cd/EdX_newer_logo.svg",
     platform: "edx"
   },
   {
@@ -29,7 +29,7 @@ export const courses: Course[] = [
     description: "Build a strong foundation in network security and threat prevention",
     rating: 4.9,
     price: 129.99,
-    image: "https://images.cdn.edx.org/post71-edx-logo-registered-elm.png?_gl=1*6zzr86*_ga*MjEwNTQzMDE4MC4xNzQyNzg0OTg2*_ga_D3KS4KMDT0*MTc0Mjc4NDk4Ni4xLjAuMTc0Mjc4NDk4Ni42MC4wLjA.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/c/cd/EdX_newer_logo.svg",
     platform: "edx"
   },
   {
@@ -38,7 +38,7 @@ export const courses: Course[] = [
     description: "Learn to build modern web applications from front to back",
     rating: 4.7,
     price: 89.99,
-    image: "https://images.cdn.edx.org/post71-edx-logo-registered-elm.png?_gl=1*6zzr86*_ga*MjEwNTQzMDE4MC4xNzQyNzg0OTg2*_ga_D3KS4KMDT0*MTc0Mjc4NDk4Ni4xLjAuMTc0Mjc4NDk4Ni42MC4wLjA.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/c/cd/EdX_newer_logo.svg",
     platform: "edx"
   },
   {
@@ -47,7 +47,7 @@ export const courses: Course[] = [
     description: "Master data-driven decision making for business strategies",
     rating: 4.5,
     price: 84.99,
-    image: "https://images.cdn.edx.org/post71-edx-logo-registered-elm.png?_gl=1*6zzr86*_ga*MjEwNTQzMDE4MC4xNzQyNzg0OTg2*_ga_D3KS4KMDT0*MTc0Mjc4NDk4Ni4xLjAuMTc0Mjc4NDk4Ni42MC4wLjA.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/c/cd/EdX_newer_logo.svg",
     platform: "edx"
   },
   
@@ -243,12 +243,12 @@ export const courses: Course[] = [
 export const teamMembers: TeamMember[] = [
   {
     name: "Keshav Arri",
-    role: "Full Stack Engineer",
+    role: "Full Stack Developer",
     github: "https://github.com/keshav0375",
     linkedin: "https://www.linkedin.com/in/keshav-kumar-arri/"
   },
   {
-    name: "Prabh Pardhaan",
+    name: "Prabh Singh",
     role: "UI/UX Designer",
     github: "https://github.com/sarahj",
     linkedin: "https://linkedin.com/in/sarahj"
@@ -275,23 +275,23 @@ export const teamMembers: TeamMember[] = [
 
 export const features = [
   {
-    title: "Smart Course Recommendations",
-    description: "AI-powered suggestions based on your interests and goals"
+    title: "Spell Checker",
+    description: "Ensure accurate search queries with automatic spell correction"
   },
   {
-    title: "Progress Tracking",
-    description: "Monitor your learning journey with detailed analytics"
+    title: "Word Completion",
+    description: "Intelligent suggestions to complete your search terms"
   },
   {
-    title: "Expert Reviews",
-    description: "In-depth analysis from industry professionals"
+    title: "Frequency Count",
+    description: "Analyze keyword popularity across available courses"
   },
   {
-    title: "Interactive Learning Paths",
-    description: "Customized roadmaps for your career goals"
+    title: "Inverted Index",
+    description: "Efficient course lookup based on keywords and phrases"
   },
   {
-    title: "Community Support",
-    description: "Connect with peers and mentors in your field"
+    title: "Page Ranking",
+    description: "Sort courses by relevance and popularity for better results"
   }
 ];

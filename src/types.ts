@@ -61,3 +61,9 @@ export interface ApiCourse {
   rating: number;
   platform: string;
 }
+
+export interface InvertedIndexItem {
+  url: string;
+  frequency: number;
+  positionList: number[];
+}

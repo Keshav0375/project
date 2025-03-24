@@ -207,6 +207,7 @@ searchCourses(query: string, limit: number = 25): Course[] {
       'khan-academy': 'KhanAcademy',
       'khan academy': 'KhanAcademy',
       'KhanAcademy': 'KhanAcademy',
+      'Khan Academy': 'KhanAcademy',
       'stanford': 'StanfordOnline',
       'StanfordOnline': 'StanfordOnline',
       'Stanford': 'StanfordOnline',
