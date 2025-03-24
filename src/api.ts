@@ -1,4 +1,4 @@
-import type { Course, ApiResponse, ApiCourse } from './types';
+import type { Course, ApiResponse, ApiCourse, FrequencyResponse } from './types';
 
 /**
  * API service for EduMetrics
@@ -152,3 +152,17 @@ export async function fetchInvertedIndex(searchWord: string): Promise<InvertedIn
   }
 }
 
+
+export async function fetchFrequencyCount(searchWord: string): Promise<FrequencyResponse> {
+  try {
+    const response = await fetch(`http://localhost:8080/api/courses/getFrequencyCount?keyword=${encodeURIComponent(searchWord)}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data: FrequencyResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching frequency count data:", error);
+    throw error;
+  }
+}

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Menu, Star, X, BarChart2, Network, TrendingUp, Loader, Download } from 'lucide-react';
-import type { SearchSuggestion, Course, InvertedIndexItem } from './types';
+import type { SearchSuggestion, Course, InvertedIndexItem, WordFrequency } from './types';
 import { teamMembers, features } from './data';
-import { fetchCourses, fetchPageRank, fetchInvertedIndex} from './api'; 
+import { fetchCourses, fetchPageRank, fetchInvertedIndex, fetchFrequencyCount} from './api'; 
 import { WordFrequencyChart } from './components/analysis/WordFrequencyChart';
 import { InvertedIndexTable } from './components/analysis/InvertedIndexTable';
 import { PageRankDisplay } from './components/analysis/PageRankDisplay';
-import { wordFrequencyData } from './data/analysisData';
 import csvDataService from './services/CSVDataService';
+
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -33,6 +33,7 @@ function App() {
     message: ''
   });
   const [feedbackError, setFeedbackError] = useState('');
+  const [frequencyData, setFrequencyData] = useState<WordFrequency[]>([]);
   const fullText = "Find Your Perfect Course";
 
   const platforms = [
@@ -211,6 +212,20 @@ function App() {
           } catch (invertedIndexError) {
               console.error("Error fetching inverted index data:", invertedIndexError);
           }
+        
+        try {
+          const frequencyResponse = await fetchFrequencyCount(searchQuery);
+          if (frequencyResponse.data?.length > 0) {
+            const topWords = frequencyResponse.data[0].topWords;
+            const transformedData = Object.entries(topWords).map(([text, value]) => ({
+              text,
+              value,
+            }));
+            setFrequencyData(transformedData);
+          }
+        } catch (error) {
+          console.error("Error fetching frequency data:", error);
+        }
       } else {
         setError("No courses found. Try a different search term.");
       }
@@ -257,6 +272,20 @@ function App() {
           } catch (invertedIndexError) {
               console.error("Error fetching inverted index data:", invertedIndexError);
           }
+
+        try {
+          const frequencyResponse = await fetchFrequencyCount(searchQuery);
+          if (frequencyResponse.data?.length > 0) {
+            const topWords = frequencyResponse.data[0].topWords;
+            const transformedData = Object.entries(topWords).map(([text, value]) => ({
+              text,
+              value,
+            }));
+            setFrequencyData(transformedData);
+          }
+        } catch (error) {
+          console.error("Error fetching frequency data:", error);
+        }
       } else {
         setError("No courses found. Try a different search term.");
       }
@@ -511,7 +540,7 @@ function App() {
               <h3 className="text-xl font-semibold text-white">Word Frequency Analysis</h3>
             </div>
             <p className="text-gray-400 mb-6">Most common keywords in available courses</p>
-            <WordFrequencyChart data={wordFrequencyData} />
+            <WordFrequencyChart data={frequencyData} />
           </div>
           
           {/* Inverted Index Display */}

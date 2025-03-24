@@ -67,3 +67,13 @@ export interface InvertedIndexItem {
   frequency: number;
   positionList: number[];
 }
+
+
+export interface FrequencyResponse {
+  statusCode: number;
+  message: string;
+  data: Array<{
+    count: number;
+    topWords: Record<string, number>;
+  }>;
+}
