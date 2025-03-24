@@ -19,6 +19,11 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isScraping, setIsScraping] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [spellCheckSuggestion, setSpellCheckSuggestion] = useState<string | null>(null);
+  const [toast, setToast] = useState<{message: string, visible: boolean}>({
+    message: '',
+    visible: false
+  });
   const fullText = "Find Your Perfect Course";
 
   const platforms = [
@@ -60,19 +65,37 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  const showToast = (message: string) => {
+    setToast({ message, visible: true });
+    setTimeout(() => {
+      setToast(prev => ({ ...prev, visible: false }));
+    }, 3000); // Hide after 3 seconds
+  };
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-  
-    // Get title completions from the Trie
+    
+    // Reset spell check suggestion when query changes
+    setSpellCheckSuggestion(null);
+    
+    // Get title suggestions if query has at least 3 characters
     if (query.length > 2) {
-      const titleCompletions = csvDataService.getTitleCompletions(query, 3);
+      const titleSuggestions = csvDataService.getTitleSuggestions(query, 3);
       
-      const formattedSuggestions: SearchSuggestion[] = titleCompletions.map(text => ({
+      const formattedSuggestions: SearchSuggestion[] = titleSuggestions.map(text => ({
         text,
         category: "Suggested"
       }));
       
       setSuggestions(formattedSuggestions);
+      
+      // Check spelling for single words
+      if (query.split(/\s+/).length === 1) {
+        const spellingSuggestion = csvDataService.findSpellingSuggestion(query);
+        if (spellingSuggestion) {
+          setSpellCheckSuggestion(spellingSuggestion);
+        }
+      }
     } else {
       setSuggestions([]);
     }
@@ -92,6 +115,7 @@ function App() {
       // Process the results
       if (searchResults.length > 0) {
         setCourses(searchResults);
+        showToast(`Found ${searchResults.length} courses matching "${searchQuery}"`);
       } else {
         setError("No courses found. Try a different search term.");
       }
@@ -103,7 +127,7 @@ function App() {
     }
   };
 
-  // Function to perform API scraping (the old function)
+  // Function to perform API scraping
   const performScraping = async () => {
     if (!searchQuery.trim()) return;
     
@@ -117,6 +141,7 @@ function App() {
       // Process the API response
       if (fetchedCourses.length > 0) {
         setCourses(fetchedCourses);
+        showToast(`Scraped ${fetchedCourses.length} courses for "${searchQuery}"`);
       } else {
         setError("No courses found. Try a different search term.");
       }
@@ -134,6 +159,11 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black">
+      {/* Toast Notification */}
+      <div className={`fixed top-16 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-500 ${toast.visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        {toast.message}
+      </div>
+      
       {/* Navigation */}
       <nav className="bg-gray-900 text-white fixed w-full z-50">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
@@ -206,6 +236,16 @@ function App() {
         {/* Search container */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full md:w-[60%] px-4 z-10">
           <div className="relative">
+            {spellCheckSuggestion && (
+              <div className="absolute -top-6 left-0 text-white bg-gray-800 px-2 py-1 rounded-t-md text-sm">
+                Did you mean: <button 
+                  className="text-blue-400 hover:underline" 
+                  onClick={() => setSearchQuery(spellCheckSuggestion)}
+                >
+                  {spellCheckSuggestion}
+                </button>
+              </div>
+            )}
             <input
               type="text"
               placeholder="Search for courses..."

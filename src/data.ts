@@ -11,7 +11,7 @@ export const courses: Course[] = [
     description: "Master the fundamentals of ML algorithms and practical applications",
     rating: 4.8,
     price: 99.99,
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.cdn.edx.org/post71-edx-logo-registered-elm.png?_gl=1*6zzr86*_ga*MjEwNTQzMDE4MC4xNzQyNzg0OTg2*_ga_D3KS4KMDT0*MTc0Mjc4NDk4Ni4xLjAuMTc0Mjc4NDk4Ni42MC4wLjA.",
     platform: "edx"
   },
   {
@@ -20,7 +20,7 @@ export const courses: Course[] = [
     description: "Learn statistical analysis and data visualization techniques",
     rating: 4.6,
     price: 79.99,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.cdn.edx.org/post71-edx-logo-registered-elm.png?_gl=1*6zzr86*_ga*MjEwNTQzMDE4MC4xNzQyNzg0OTg2*_ga_D3KS4KMDT0*MTc0Mjc4NDk4Ni4xLjAuMTc0Mjc4NDk4Ni42MC4wLjA.",
     platform: "edx"
   },
   {
@@ -29,7 +29,7 @@ export const courses: Course[] = [
     description: "Build a strong foundation in network security and threat prevention",
     rating: 4.9,
     price: 129.99,
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.cdn.edx.org/post71-edx-logo-registered-elm.png?_gl=1*6zzr86*_ga*MjEwNTQzMDE4MC4xNzQyNzg0OTg2*_ga_D3KS4KMDT0*MTc0Mjc4NDk4Ni4xLjAuMTc0Mjc4NDk4Ni42MC4wLjA.",
     platform: "edx"
   },
   {
@@ -38,7 +38,7 @@ export const courses: Course[] = [
     description: "Learn to build modern web applications from front to back",
     rating: 4.7,
     price: 89.99,
-    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.cdn.edx.org/post71-edx-logo-registered-elm.png?_gl=1*6zzr86*_ga*MjEwNTQzMDE4MC4xNzQyNzg0OTg2*_ga_D3KS4KMDT0*MTc0Mjc4NDk4Ni4xLjAuMTc0Mjc4NDk4Ni42MC4wLjA.",
     platform: "edx"
   },
   {
@@ -47,7 +47,7 @@ export const courses: Course[] = [
     description: "Master data-driven decision making for business strategies",
     rating: 4.5,
     price: 84.99,
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.cdn.edx.org/post71-edx-logo-registered-elm.png?_gl=1*6zzr86*_ga*MjEwNTQzMDE4MC4xNzQyNzg0OTg2*_ga_D3KS4KMDT0*MTc0Mjc4NDk4Ni4xLjAuMTc0Mjc4NDk4Ni42MC4wLjA.",
     platform: "edx"
   },
   
