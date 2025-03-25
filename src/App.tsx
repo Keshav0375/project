@@ -57,7 +57,6 @@ function App() {
   useEffect(() => {
     let currentIndex = 0;
     let interval: ReturnType<typeof setInterval>;
-
     const typeText = () => {
       if (currentIndex <= fullText.length) {
         setDisplayText(fullText.slice(0, currentIndex));
@@ -148,6 +147,12 @@ function App() {
     showToast("Feedback submitted and saved successfully!");
   };
 
+  const extractFirstWord = (query: string): string => {
+    // Split the query and return the first word
+    const words = query.trim().split(/\s+/);
+    return words[0];
+  };
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     
@@ -193,9 +198,11 @@ function App() {
         setCourses(searchResults);
         showToast(`Found ${searchResults.length} courses matching "${searchQuery}"`);
         
+        const firstWord = extractFirstWord(searchQuery);
+
         // Now fetch page rank data
         try {
-          const pageRankResponse = await fetchPageRank(searchQuery);
+          const pageRankResponse = await fetchPageRank(firstWord);
           if (pageRankResponse && pageRankResponse.data) {
             setPageRankData(pageRankResponse.data);
           }
@@ -205,7 +212,7 @@ function App() {
         }
 
         try {
-          const invertedIndexResponse = await fetchInvertedIndex(searchQuery);
+          const invertedIndexResponse = await fetchInvertedIndex(firstWord);
           if (invertedIndexResponse && invertedIndexResponse.data) {
               setInvertedIndexData(invertedIndexResponse.data);
           }
@@ -214,7 +221,7 @@ function App() {
           }
         
         try {
-          const frequencyResponse = await fetchFrequencyCount(searchQuery);
+          const frequencyResponse = await fetchFrequencyCount(firstWord);
           if (frequencyResponse.data?.length > 0) {
             const topWords = frequencyResponse.data[0].topWords;
             const transformedData = Object.entries(topWords).map(([text, value]) => ({
@@ -222,6 +229,10 @@ function App() {
               value,
             }));
             setFrequencyData(transformedData);
+
+            
+            setSearchQuery("");
+            setSuggestions([]);
           }
         } catch (error) {
           console.error("Error fetching frequency data:", error);
@@ -251,10 +262,12 @@ function App() {
       if (fetchedCourses.length > 0) {
         setCourses(fetchedCourses);
         showToast(`Scraped ${fetchedCourses.length} courses for "${searchQuery}"`);
+
+        const firstWord = extractFirstWord(searchQuery);
         
         // Now fetch page rank data
         try {
-          const pageRankResponse = await fetchPageRank(searchQuery);
+          const pageRankResponse = await fetchPageRank(firstWord);
           if (pageRankResponse && pageRankResponse.data) {
             setPageRankData(pageRankResponse.data);
           }
@@ -265,7 +278,7 @@ function App() {
 
 
         try {
-          const invertedIndexResponse = await fetchInvertedIndex(searchQuery);
+          const invertedIndexResponse = await fetchInvertedIndex(firstWord);
           if (invertedIndexResponse && invertedIndexResponse.data) {
               setInvertedIndexData(invertedIndexResponse.data);
           }
@@ -274,7 +287,7 @@ function App() {
           }
 
         try {
-          const frequencyResponse = await fetchFrequencyCount(searchQuery);
+          const frequencyResponse = await fetchFrequencyCount(firstWord);
           if (frequencyResponse.data?.length > 0) {
             const topWords = frequencyResponse.data[0].topWords;
             const transformedData = Object.entries(topWords).map(([text, value]) => ({
@@ -282,6 +295,9 @@ function App() {
               value,
             }));
             setFrequencyData(transformedData);
+            
+            setSearchQuery("");
+            setSuggestions([]);
           }
         } catch (error) {
           console.error("Error fetching frequency data:", error);

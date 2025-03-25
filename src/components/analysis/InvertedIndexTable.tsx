@@ -7,7 +7,6 @@ interface Props {
 }
 
 export function InvertedIndexTable({ data }: Props) {
-  // Here we assume we want to sort by frequency (descending) by default.
   const sortedData = [...data].sort((a, b) => b.frequency - a.frequency);
 
   return (
@@ -15,9 +14,9 @@ export function InvertedIndexTable({ data }: Props) {
       <table className="w-full">
         <thead>
           <tr className="border-b border-gray-700">
-            <th className="py-2 px-4 text-left">Frequency</th>
-            <th className="py-2 px-4 text-left">Positions</th>
-            <th className="py-2 px-4 text-left">URL</th>
+          <th className="py-2 px-4 text-left text-white">Frequency</th>
+          <th className="py-2 px-4 text-left text-white">Positions</th>
+          <th className="py-2 px-4 text-left text-white">URL</th>
           </tr>
         </thead>
         <tbody>
