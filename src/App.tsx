@@ -488,12 +488,12 @@ function App() {
                       duration-300 hover:scale-105 hover:shadow-xl"
             >
               <img
-                src={course.image || `https://source.unsplash.com/random/300x200?education&sig=${index}`}
+                src={course.image || getImageForPlatform(course.platform)}
                 alt={course.title}
-                className="w-full h-48 object-cover"
+                className="w-full h-48 object-contain p-2 bg-white"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  target.src = `https://source.unsplash.com/random/300x200?education&sig=${index}`;
+                  target.src = getImageForPlatform(course.platform);
                 }}
               />
               <div className="p-6">
@@ -666,5 +666,20 @@ function getPlatformName(platformId: string): string {
 
   return platformMap[platformId] || platformId;
 }
+
+const getImageForPlatform = (platform: string) => {
+  const platformImages = {
+    'edx': 'https://upload.wikimedia.org/wikipedia/commons/c/cd/EdX_newer_logo.svg',
+    'coursera': 'https://upload.wikimedia.org/wikipedia/commons/9/97/Coursera-Logo_600x600.svg',
+    'khanacademy': 'https://upload.wikimedia.org/wikipedia/commons/9/97/Khan_Academy_logo.svg',
+    'stanford': 'https://www.freepik.com/free-vector/gradient-abstract-technology-company-logotype_4734102.htm#fromView=keyword&page=1&position=0&uuid=56b21506-56fa-4c66-a1b0-4cd620024a32&query=Technology+Logo',
+    'default': 'https://img.icons8.com/?size=100&id=SHlZSea7WHzv&format=png&color=000000'
+  } as const;
+
+  type PlatformKey = keyof typeof platformImages;
+  const normalizedPlatform = platform.toLowerCase().replace(' ', '') as PlatformKey;
+
+  return platformImages[normalizedPlatform] ?? platformImages.default;
+};
 
 export default App;
